@@ -75,3 +75,27 @@ Ucengine.prototype.meeting = function(cb) {
 Ucengine.prototype.user = function(cb) {
 	this._request('GET', '/user/?' +querystring.stringify({uid:this.uid, sid:this.sid}), null, cb);
 };
+
+var User = function() {
+	this.uid = null;
+	this.credential = null;
+	if(arguments.length > 0) {
+		this.uid = arguments[0];
+	}
+	if(arguments.length > 1) {
+		this.credential = arguments[1];
+	}
+};
+
+exports.User = User;
+
+User.prototype.create = function(ucengine, cb) {
+	var u = this;
+	ucengine._request('POST', '/user/', {uid: this.uid, auth:'password', credential: this.credential}, function(resp) {
+		cb.apply(ucengine, [resp, u]);
+	});
+};
+
+Ucengine.prototype.create = function(something, cb) {
+	something.create(this, cb);
+};

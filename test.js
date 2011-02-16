@@ -1,5 +1,7 @@
 var conf = require('./conf').Conf,
-	Ucengine = require('./ucengine').Ucengine;
+	uce = require('./ucengine'),
+	Ucengine = uce.Ucengine,
+	User = uce.User;
 
 var uc = new Ucengine(conf);
 
@@ -26,3 +28,4 @@ uc.presence(conf.uid, conf.credential, function(resp) {
 uc.infos(function(resp) {
 	console.log('infos: ', resp);
 });
+
