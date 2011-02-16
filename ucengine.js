@@ -19,8 +19,8 @@ Ucengine.prototype._request_opts = function(method, path) {
 
 Ucengine.prototype._request = function(method, path, body, cb) {
 	var req = http.request(this._request_opts(method, path), function(res) {
-		console.log('STATUS: ' + res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers));
+		//console.log('STATUS: ' + res.statusCode);
+		//console.log('HEADERS: ' + JSON.stringify(res.headers));
 		res.setEncoding('utf8');
 		var response = "";
 		res.on('data', function (chunk) {
@@ -39,29 +39,31 @@ Ucengine.prototype._request = function(method, path, body, cb) {
 };
 
 Ucengine.prototype.presence = function(uid, credential, cb) {
-	this._request('POST', '/presence/', {uid: uid, credential:credential, "metadata[nickname]": uid }, cb);
+	this._request('POST', '/presence/', {
+		uid: uid,
+		credential:credential,
+		"metadata[nickname]": uid }, cb);
 };
 
 Ucengine.prototype.time = function(cb) {
 	this._request('GET', '/time', null, cb);
 };
 
-Ucengine.prototype.meeting = function(cb) {
-	this._request('GET', '/meeting/opened', null, cb);
-}
+Ucengine.prototype.infos = function(cb) {
+	this._request('GET', '/infos', null, cb);
+};
 
-Ucengine.prototype.user = function() {
-	var req = http.request({host: this.host, port: this.port, path: '/user/', method: 'GET'}, function(res) {
-		console.log('STATUS: ' + res.statusCode);
-		console.log('HEADERS: ' + JSON.stringify(res.headers));
-		res.setEncoding('utf8');
-		var response = "";
-		res.on('data', function (chunk) {
-			response += chunk;
-		});
-		res.on('end', function() {
-			console.log(response);
-		});
-	}).end();
-	
-}
+Ucengine.prototype.meeting = function(cb) {
+	var status;
+	if(arguments.length == 1) {
+		status = 'opened';
+	} else {
+		status = arguments[0];
+		cb = arguments[1];
+	}
+	this._request('GET', '/meeting/' + status, null, cb);
+};
+
+Ucengine.prototype.user = function(cb) {
+	this._request('GET', '/user/', null, cb);
+};
