@@ -4,6 +4,7 @@ var http = require('http'),
 var Ucengine = function(conf) {
 	this.host = conf.host;
 	this.port = conf.port;
+	this.sid = null;
 };
 
 exports.Ucengine = Ucengine;
@@ -39,10 +40,17 @@ Ucengine.prototype._request = function(method, path, body, cb) {
 };
 
 Ucengine.prototype.presence = function(uid, credential, cb) {
+	var uc = this;
+	this.uid = uid;
 	this._request('POST', '/presence/', {
 		uid: uid,
 		credential:credential,
-		"metadata[nickname]": uid }, cb);
+		"metadata[nickname]": uid }, function(resp) {
+			if(resp.result != undefined) {
+				uc.sid = resp.result;
+			}
+			cb.apply(uc, [resp]);
+		});
 };
 
 Ucengine.prototype.time = function(cb) {
@@ -65,5 +73,5 @@ Ucengine.prototype.meeting = function(cb) {
 };
 
 Ucengine.prototype.user = function(cb) {
-	this._request('GET', '/user/', null, cb);
+	this._request('GET', '/user/?' +querystring.stringify({uid:this.uid, sid:this.sid}), null, cb);
 };
