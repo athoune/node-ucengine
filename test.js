@@ -9,6 +9,20 @@ uc.time(function(resp) {
 	console.log('time: ', resp);
 });
 
+uc.infos(function(resp) {
+	console.log('infos: ', resp);
+});
+
+uc.create(new User('popo@popo.com', 'toto'), function(resp, u) {
+	u.presence(function(resp) {
+		console.log('presence :', resp);
+		this.user(function(resp) {
+			console.log('other users', resp);
+		});
+	});
+	
+});
+
 uc.meeting(function(resp) {
 	console.log('meeting: ', resp);
 });
@@ -16,16 +30,3 @@ uc.meeting(function(resp) {
 uc.meeting('closed', function(resp) {
 	console.log('meeting closed: ', resp);
 });
-
-uc.presence(conf.uid, conf.credential, function(resp) {
-	console.log('presence :', resp);
-	this.user(function(resp) {
-		console.log('user: ', resp);
-	});
-});
-
-
-uc.infos(function(resp) {
-	console.log('infos: ', resp);
-});
-

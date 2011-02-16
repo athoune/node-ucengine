@@ -4,7 +4,6 @@ var http = require('http'),
 var Ucengine = function(conf) {
 	this.host = conf.host;
 	this.port = conf.port;
-	this.sid = null;
 };
 
 exports.Ucengine = Ucengine;
@@ -39,20 +38,6 @@ Ucengine.prototype._request = function(method, path, body, cb) {
 	
 };
 
-Ucengine.prototype.presence = function(uid, credential, cb) {
-	var uc = this;
-	this.uid = uid;
-	this._request('POST', '/presence/', {
-		uid: uid,
-		credential:credential,
-		"metadata[nickname]": uid }, function(resp) {
-			if(resp.result != undefined) {
-				uc.sid = resp.result;
-			}
-			cb.apply(uc, [resp]);
-		});
-};
-
 Ucengine.prototype.time = function(cb) {
 	this._request('GET', '/time', null, cb);
 };
@@ -72,13 +57,14 @@ Ucengine.prototype.meeting = function(cb) {
 	this._request('GET', '/meeting/' + status, null, cb);
 };
 
-Ucengine.prototype.user = function(cb) {
-	this._request('GET', '/user/?' +querystring.stringify({uid:this.uid, sid:this.sid}), null, cb);
+Ucengine.prototype.create = function(something, cb) {
+	something._create(this, cb);
 };
 
 var User = function() {
 	this.uid = null;
 	this.credential = null;
+	this.sid = null;
 	if(arguments.length > 0) {
 		this.uid = arguments[0];
 	}
@@ -89,13 +75,41 @@ var User = function() {
 
 exports.User = User;
 
-User.prototype.create = function(ucengine, cb) {
+User.prototype._create = function(ucengine, cb) {
 	var u = this;
+	this.ucengine = ucengine;
 	ucengine._request('POST', '/user/', {uid: this.uid, auth:'password', credential: this.credential}, function(resp) {
 		cb.apply(ucengine, [resp, u]);
 	});
 };
 
-Ucengine.prototype.create = function(something, cb) {
-	something.create(this, cb);
+User.prototype.presence = function(cb) {
+	var u = this;
+	this.ucengine._request('POST', '/presence/', {
+		uid: this.uid,
+		credential: this.credential,
+		"metadata[nickname]": this.uid }, function(resp) {
+			if(resp.result != undefined) {
+				u.sid = resp.result;
+			}
+			cb.apply(u, [resp]);
+		});
+};
+
+User.prototype.user = function(cb) {
+	this.ucengine._request('GET', '/user/?' +querystring.stringify({uid:this.uid, sid:this.sid}), null, cb);
+};
+
+var Meeting = function() {
+	this.meeting = null;
+	if(arguments.length > 0) {
+		this.meeting = arguments[0];
+	}
+};
+
+exports.Meeting = Meeting;
+
+Meeting.prototype._create = function(ucengine) {
+	var m = this;
+	ucengine._request('POST', '/meeting/all/', {meeting: this.meeting});
 };
