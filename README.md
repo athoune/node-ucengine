@@ -6,7 +6,7 @@ Nodejs client for [UC Engine](http://www.ucengine.org).
 Requisites
 ----------
 
- * nodejs >= 4
+ * nodejs >= 0.4
 
 Test
 ----
