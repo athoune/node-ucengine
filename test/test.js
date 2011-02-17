@@ -1,5 +1,5 @@
 var conf = require('./conf').Conf,
-	uce = require('./ucengine'),
+	uce = require('../lib/ucengine'),
 	Ucengine = uce.Ucengine,
 	User = uce.User;
 
@@ -13,7 +13,7 @@ uc.infos(function(resp) {
 	console.log('infos: ', resp);
 });
 
-uc.create(new User('popo@popo.com', 'toto'), function(resp, u) {
+uc.create(new User('popo@popo.com', 'popo'), function(resp, u) {
 	u.presence(function(resp) {
 		console.log('presence :', resp);
 		this.user(function(resp) {
