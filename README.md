@@ -11,13 +11,19 @@ Requisites
 Test
 ----
 
-Build your own conf file named _conf.js_ with something like that :
+Launch the demo datas on the server
 
-	exports.Conf = {
-		host: "192.168.1.142",
-		port: 5280,
-		uid: "popo@popo.com",
-		credential: "spam"
-	};
-	
-Then you can play with test.js and flood.js. Flood need a clean database.
+_test/demo.js_ use this data and do :
+
+ * √ Everybody connect
+ * √ Everybody join the meeting
+ * _ Events
+
+Features
+--------
+
+ * √ REST client with auth
+ * √ Basic method : _time_, _info_
+ * √ User : _presence_, join _meeting_
+ * √ Batch creation of users
+ * _ Event
