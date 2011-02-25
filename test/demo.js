@@ -8,7 +8,7 @@ var uce = require('../lib/ucengine'),
 
 var uc = new Ucengine({host: 'localhost', port:5280});
 
-var agoroom = new Meeting("agoroom");
+var agoroom = new Meeting("demo");
 
 var users = {};
 var logins = [
@@ -32,7 +32,11 @@ uc.asyncUsers(logins, function(user) {
 				if(ls.length) {
 					oneMoreTime(ls);
 				} else {
-					console.log("everybody are in the meeting", uc.users);
+					console.log("everybody are in the meeting");//, uc.users);
+					uc.users["romain.gauthier@af83.com"].meetings.demo.chat('beuha!',
+						'fr', function(resp) {
+							console.log(resp);
+						});
 				}
 			});
 		};
