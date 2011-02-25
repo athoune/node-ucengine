@@ -33,10 +33,37 @@ uc.asyncUsers(logins, function(user) {
 					oneMoreTime(ls);
 				} else {
 					console.log("everybody are in the meeting");//, uc.users);
-					uc.users["romain.gauthier@af83.com"].meetings.demo.chat('beuha!',
-						'fr', function(resp) {
-							console.log(resp);
-						});
+					var SIZE = 500;
+					var received = 0;
+					for(user in uc.users) {
+						uc.users[user].meetings.demo.addListener(
+							'chat.message.new',
+							function(msg) {
+								received ++;
+								if(received % 500 == 0) {
+									console.log('r', this.user.uid, received);
+								}
+								if(received == SIZE * Math.pow(logins.length, 2)) {
+									console.log("message receveid");
+									process.exit();
+								}
+							});
+					}
+					var cpt = 0;
+					for(var i=0; i < SIZE; i++) {
+						for(user in uc.users) {
+							uc.users[user].meetings.demo.chat('beuha!',
+								'fr', function(resp) {
+									cpt ++;
+									if(cpt % 50 == 0) {
+										console.log('e', cpt);
+									}
+									if(cpt == logins.length * SIZE) {
+										console.log("messages sent");
+									}
+								});
+						}
+					}
 				}
 			});
 		};
