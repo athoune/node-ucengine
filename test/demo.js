@@ -32,7 +32,7 @@ uc.asyncUsers(logins, function(user) {
 				if(ls.length) {
 					oneMoreTime(ls);
 				} else {
-					console.log("everybody are in the meeting");
+					console.log("everybody are in the meeting", uc.users);
 				}
 			});
 		};
