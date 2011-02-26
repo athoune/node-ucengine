@@ -10,7 +10,6 @@ var uc = new Ucengine({host: 'localhost', port:5280});
 
 var agoroom = new Meeting("demo");
 
-var users = {};
 var logins = [
 	["thierry.bomandouki@af83.com", 'pwd'],
 	["victor.goya@af83.com", "pwd"],
@@ -18,12 +17,13 @@ var logins = [
 	["alexandre.eisenchteter@af83.com", "pwd"],
 	["romain.gauthier@af83.com", "pwd"],
 	["participant", "pwd"]
-];
-console.log(logins.map(function(l) {return l[0];}));
+].map(function(login) {
+	return new User(login[0], login[1]);
+});
 
-uc.asyncUsers(logins, function(user) {
-		users[user.uid] = user;
-	},
+console.log(logins.map(function(u) {return u.uid;}));
+
+uc.attachAll(logins,
 	function() {
 		var oneMoreTime = function(ls) {
 			var lp = ls.pop();
@@ -33,14 +33,14 @@ uc.asyncUsers(logins, function(user) {
 					oneMoreTime(ls);
 				} else {
 					console.log("everybody are in the meeting");//, uc.users);
-					var SIZE = 500;
+					var SIZE = 50;
 					var received = 0;
 					for(user in uc.users) {
 						uc.users[user].meetings.demo.addListener(
 							'chat.message.new',
 							function(msg) {
 								received ++;
-								if(received % 500 == 0) {
+								if(received % 50 == 0) {
 									console.log('r', this.user.uid, received);
 								}
 								if(received == SIZE * Math.pow(logins.length, 2)) {
@@ -67,6 +67,6 @@ uc.asyncUsers(logins, function(user) {
 				}
 			});
 		};
-		oneMoreTime(Object.keys(users).map(function(e) { return users[e];}));
+		oneMoreTime(Object.keys(this.users).map(function(e) { return uc.users[e];}));
 	}
 );
