@@ -12,21 +12,3 @@ uc.time(function(resp) {
 uc.infos(function(resp) {
 	console.log('infos: ', resp);
 });
-
-uc.add(new User('popo@popo.com', 'popo'), function(resp, u) {
-	u.presence(function(resp) {
-		console.log('presence :', resp);
-		this.user(function(resp) {
-			console.log('other users', resp);
-		});
-	});
-	
-});
-
-uc.meeting(function(resp) {
-	console.log('meeting: ', resp);
-});
-
-uc.meeting('closed', function(resp) {
-	console.log('meeting closed: ', resp);
-});
