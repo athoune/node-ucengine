@@ -21,18 +21,18 @@ var logins = [
 	return new User(login[0], login[1]);
 });
 
-console.log(logins.map(function(u) {return u.uid;}));
+uc.logger.log(logins.map(function(u) {return u.uid;}));
 
 uc.attachAll(logins,
 	function() {
 		var oneMoreTime = function(ls) {
 			var lp = ls.pop();
 			lp.join(agoroom, function() {
-				console.log("meeting for " + lp.uid);
+				uc.logger.log("meeting for " + lp.uid);
 				if(ls.length) {
 					oneMoreTime(ls);
 				} else {
-					console.log("everybody are in the meeting");//, uc.users);
+					uc.logger.log("everybody are in the meeting");//, uc.users);
 					var SIZE = 50;
 					var received = 0;
 					for(user in uc.users) {
@@ -41,10 +41,10 @@ uc.attachAll(logins,
 							function(msg) {
 								received ++;
 								if(received % 50 == 0) {
-									console.log('r', this.user.uid, received);
+									uc.logger.log('r', this.user.uid, received);
 								}
 								if(received == SIZE * Math.pow(logins.length, 2)) {
-									console.log("message receveid");
+									uc.logger.log("message receveid");
 									process.exit();
 								}
 							});
@@ -56,10 +56,10 @@ uc.attachAll(logins,
 								'fr', function(resp) {
 									cpt ++;
 									if(cpt % 50 == 0) {
-										console.log('e', cpt);
+										uc.logger.log('e', cpt);
 									}
 									if(cpt == logins.length * SIZE) {
-										console.log("messages sent");
+										uc.logger.log("messages sent");
 									}
 								});
 						}
