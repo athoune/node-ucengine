@@ -1,6 +1,6 @@
 {
 	"name"        : "ucengine",
-	"version"     : "0.0.1",
+	"version"     : "0.0.2",
 	"main"        : "./lib/ucengine",
 	"description" : "ucengine client for node.js",
 	"author"      : "Mathieu Lecarme <mathieu@garambrogne.net>",
