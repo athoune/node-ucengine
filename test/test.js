@@ -5,19 +5,9 @@ var conf = require('./conf').Conf,
 
 function UCcontext(cb) {
 	var uc = new Ucengine(conf);
-	var u = new User("participant", "pwd");
+	var u = new User(conf.uid, conf.credential);
 	uc.attach(u, cb);
 }
-
-// UCcontext(, function() {
-// 	var uc = this.ucengine;
-// 	this.time(function(resp) {
-// 		uc.logger.log('time: ', resp);
-// 	});
-// 	this.infos(function(resp) {
-// 		uc.logger.log('infos: ', resp);
-// 	});
-// });
 
 exports.testTime = function(test) {
 	test.expect(1);
