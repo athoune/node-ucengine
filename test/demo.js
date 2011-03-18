@@ -25,9 +25,9 @@ var logins = [
 
 exports.testDemo = function(test) {
 	test.expect(4);
+	var uc = new Ucengine(conf);
 	function BigTest() {
 		return Chainsaw(function(saw) {
-			var uc = new Ucengine(conf);
 			var SIZE = 3; // number of messages
 			var logins, meeting;
 			//adding users
@@ -62,7 +62,7 @@ exports.testDemo = function(test) {
 						received_messages--;
 						cpt++;
 						//[FIXME] I loose some messages
-						console.log('r ' + cpt + ' ' + login.uid + ' ' + received_messages + ' ' + msg.metadata.text);
+						// console.log('r ' + cpt + ' ' + login.uid + ' ' + received_messages + ' ' + msg.metadata.text);
 						if(received_messages == 0) {
 							test.ok(true);
 							saw.next();
@@ -79,7 +79,7 @@ exports.testDemo = function(test) {
 					logins.forEach(function(login) {
 						//console.log("everybodytalk", meeting.meeting, login.meetings[meeting.meeting].chat);
 						login.meetings[meeting.meeting].chat(msg + login.uid, 'fr', function() {
-							console.log('e ' + cpt + ' ' + login.uid + " chat");
+							// console.log('e ' + cpt + ' ' + login.uid + " chat");
 							cpt--;
 							if(cpt == 0) {
 								console.log("- tchats sent");
@@ -94,6 +94,10 @@ exports.testDemo = function(test) {
 			};
 		});
 	}
+	setInterval(function() {
+		console.log('events : ', uc.stats.events.data);
+		console.log('http : ', uc.stats.http.data);
+	}, 10 * 1000);
 	BigTest()
 		.addUsers(logins)
 		.joinMeeting(new Meeting("demo"))
