@@ -26,15 +26,15 @@ var logins = [
 exports.testDemo = function(test) {
 	test.expect(4);
 	function BigTest() {
-		var uc = new Ucengine(conf);
 		return Chainsaw(function(saw) {
+			var uc = new Ucengine(conf);
 			var SIZE = 3; // number of messages
 			var logins, meeting;
 			//adding users
 			this.addUsers = function(loginz) {
 				logins = loginz;
 				uc.attachAll(logins, function() {
-					//console.log("attached");
+					console.log("- attached");
 					test.ok(true);
 					saw.next();
 				});
@@ -47,15 +47,14 @@ exports.testDemo = function(test) {
 					login.join(meeting, function() {
 						cpt--;
 						if(cpt == 0) {
-							// console.log(login.uid +" join");
+							console.log("- meeting joined");
 							test.ok(true);
 							saw.next();
 						}
 					});
 				});
 			};
-			//everybody talk then receive every messages
-			this.everybodytalk = function(msg) {
+			this.everybodylisten = function() {
 				var received_messages = SIZE * Math.pow(logins.length, 2);
 				logins.forEach(function(login) {
 					var cpt = 0;
@@ -63,22 +62,27 @@ exports.testDemo = function(test) {
 						received_messages--;
 						cpt++;
 						//[FIXME] I loose some messages
-						//console.log('r ' + cpt + ' ' + login.uid + ' ' + received_messages);
+						console.log('r ' + cpt + ' ' + login.uid + ' ' + received_messages + ' ' + msg.metadata.text);
 						if(received_messages == 0) {
 							test.ok(true);
 							saw.next();
 						}
 					});
 				});
+				console.log("- listening");
+				saw.next();
+			};
+			//everybody talk then receive every messages
+			this.everybodytalk = function(msg) {
 				var cpt = logins.length * SIZE;
 				for(i=0; i < SIZE; i++) {
 					logins.forEach(function(login) {
 						//console.log("everybodytalk", meeting.meeting, login.meetings[meeting.meeting].chat);
 						login.meetings[meeting.meeting].chat(msg + login.uid, 'fr', function() {
-							// console.log(login.uid+ " chat");
+							console.log('e ' + cpt + ' ' + login.uid + " chat");
 							cpt--;
 							if(cpt == 0) {
-								// console.log("en tchat");
+								console.log("- tchats sent");
 								test.ok(true);
 							}
 						});
@@ -93,6 +97,7 @@ exports.testDemo = function(test) {
 	BigTest()
 		.addUsers(logins)
 		.joinMeeting(new Meeting("demo"))
+		.everybodylisten()
 		.everybodytalk("Hello, I am ")
 		.done();
 };
