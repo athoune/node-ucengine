@@ -27,6 +27,7 @@ Features
  * √ User : _presence_, join _meeting_
  * √ Batch creation of users
  * √ Event
+ * √ Statistics
  * _ Multicore for more violence
 
 Model
