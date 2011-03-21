@@ -11,13 +11,15 @@ Requisites
 Test
 ----
 
-Launch the demo datas on the server
+Launch the demo datas on the server. In ucengine folder :
 
-_test/demo.js_ use this data and do :
+	$ make run
+	1> demo:start().
 
- * √ Everybody connect
- * √ Everybody join the meeting
- * √ Events
+Launch test, in node-ucengine folder :
+
+	$ nodeunit test/test.js
+	$ nodeunit test/demo.js
 
 Features
 --------
@@ -43,4 +45,3 @@ You handle something like that :
 			console.log("Robert got a message in the demo meeting", msg);
 		});
 	uc.users["robert@demo.com"].meetings["demo"].chat("Bonjour monde", "fr");
-
