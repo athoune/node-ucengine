@@ -9,10 +9,32 @@ function UCcontext(cb) {
 	uc.attach(u, cb);
 }
 
+exports.testPresence = function(test) {
+	test.expect(2);
+	var u = new User(conf.uid, conf.credential);
+	u.ucengine = new Ucengine(conf);
+	u.presence(function(err, repl) {
+		test.ok(err == null);
+		test.ok(this.sid != null);
+		test.done();
+	});
+};
+
+exports.testWrongPresence = function(test) {
+	test.expect(2);
+	var u = new User(conf.uid, '#!@?$');
+	u.ucengine = new Ucengine(conf);
+	u.presence(function(err, resp) {
+		test.ok(err != null);
+		test.equal("bad_credentials", err.message);
+		test.done();
+	});
+};
+
 exports.testTime = function(test) {
 	test.expect(1);
 	UCcontext(function() {
-		this.time(function(resp) {
+		this.time(function(err, resp) {
 			test.ok(resp.result != null);
 			test.done();
 		});
@@ -22,7 +44,7 @@ exports.testTime = function(test) {
 exports.testInfos = function(test) {
 	test.expect(1);
 	UCcontext(function() {
-		this.infos(function(resp) {
+		this.infos(function(err, resp) {
 			test.equal("localhost", resp.result.domain);
 			test.done();
 		});
