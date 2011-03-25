@@ -10,14 +10,18 @@ function UCcontext(cb) {
 }
 
 exports['presence'] = function(test) {
-	test.expect(3);
+	test.expect(5);
 	var u = new User(conf.uid, conf.credential);
 	u.ucengine = new Ucengine(conf);
 	u.presence(function(err, repl) {
 		test.ok(err == null);
 		test.ok(this instanceof User);
 		test.ok(this.sid != null);
-		test.done();
+		test.ok(undefined != this.ucengine.users[this.uid]);
+		this.disconnect(function(err, repl) {
+			test.equal(undefined, this.ucengine.users[this.uid]);
+			test.done();
+		});
 	});
 };
 
