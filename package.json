@@ -5,6 +5,7 @@
 	"description" : "ucengine client for node.js",
 	"author"      : "Mathieu Lecarme <mathieu@garambrogne.net>",
 	"dependencies": {
+		"colors"   : ">= 0.3.0"
 	},
 	"keywords"    : ["ucengine"],
 	"repositories": [{
