@@ -9,7 +9,7 @@ function UCcontext(cb) {
 	uc.attach(u, cb);
 }
 
-exports.testPresence = function(test) {
+exports['test presence'] = function(test) {
 	test.expect(2);
 	var u = new User(conf.uid, conf.credential);
 	u.ucengine = new Ucengine(conf);
@@ -20,7 +20,15 @@ exports.testPresence = function(test) {
 	});
 };
 
-exports.testWrongPresence = function(test) {
+exports['test attach'] = function(test) {
+	test.expect(1);
+	UCcontext(function() {
+		test.ok(true);
+		test.done();
+	});
+};
+
+exports['test wrong presence'] = function(test) {
 	test.expect(2);
 	var u = new User(conf.uid, '#!@?$');
 	u.ucengine = new Ucengine(conf);
@@ -31,7 +39,7 @@ exports.testWrongPresence = function(test) {
 	});
 };
 
-exports.testTime = function(test) {
+exports['test time'] = function(test) {
 	test.expect(1);
 	UCcontext(function() {
 		this.time(function(err, resp) {
@@ -41,7 +49,7 @@ exports.testTime = function(test) {
 	});
 };
 
-exports.testInfos = function(test) {
+exports['test infos'] = function(test) {
 	test.expect(1);
 	UCcontext(function() {
 		this.infos(function(err, resp) {
