@@ -30,7 +30,9 @@ exports['attach'] = function(test) {
 	UCcontext(function(err, resp) {
 		test.ok(err == null);
 		test.ok(this.sid != null);
-		test.done();
+		this.disconnect(function() {
+			test.done();
+		});
 	});
 };
 
@@ -50,7 +52,9 @@ exports['time'] = function(test) {
 	UCcontext(function() {
 		this.time(function(err, resp) {
 			test.ok(resp.result != null);
-			test.done();
+			this.disconnect(function() {
+				test.done();
+			});
 		});
 	});
 };
@@ -60,7 +64,9 @@ exports['infos'] = function(test) {
 	UCcontext(function() {
 		this.infos(function(err, resp) {
 			test.equal("localhost", resp.result.domain);
-			test.done();
+			this.disconnect(function() {
+				test.done();
+			});
 		});
 	});
 };
