@@ -16,10 +16,14 @@ Launch the demo datas on the server. In ucengine folder :
 	$ make run
 	1> demo:start().
 
+Install test dependancies :
+
+	$ sudo npm install --global nodeunit
+	$ npm install chainsaw
+
 Launch test, in node-ucengine folder :
 
 	$ nodeunit test/test.js
-	$ nodeunit test/demo.js
 
 Features
 --------
