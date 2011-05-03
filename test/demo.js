@@ -3,10 +3,16 @@ This test used data provided from ucengine demo data
 */
 var Chainsaw = require('chainsaw'),
 	uce = require('../lib/ucengine'),
-	conf = require('./conf').Conf,
 	Ucengine = uce.Ucengine,
 	User = uce.User,
 	Meeting = uce.Meeting;
+
+var conf = {
+	host: 'localhost',
+	port: 5280,
+	uid: 'victor.goya@af83.com',
+	credential: 'pwd'
+};
 
 
 var logins = [

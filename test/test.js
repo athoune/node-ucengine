@@ -1,7 +1,13 @@
-var conf = require('./conf').Conf,
-	uce = require('../lib/ucengine'),
+var uce = require('../lib/ucengine'),
 	Ucengine = uce.Ucengine,
 	User = uce.User;
+
+var conf = {
+	host: 'localhost',
+	port: 5280,
+	uid: 'victor.goya@af83.com',
+	credential: 'pwd'
+};
 
 function UCcontext(cb) {
 	var uc = new Ucengine(conf);
