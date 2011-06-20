@@ -23,6 +23,9 @@ Install test dependancies :
 
 Launch test, in node-ucengine folder :
 
+	$ npm install --global nodeunit
+	$ npm install chainsaw
+
 	$ nodeunit test/test.js
 
 Features

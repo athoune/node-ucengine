@@ -10,18 +10,16 @@ var Chainsaw = require('chainsaw'),
 var conf = {
 	host: 'localhost',
 	port: 5280,
-	uid: 'victor.goya@af83.com',
+	uid: 'participant3',
 	credential: 'pwd'
 };
 
 
 var logins = [
-	["thierry.bomandouki@af83.com", 'pwd'],
-	["victor.goya@af83.com", "pwd"],
-	["louis.ameline@af83.com", "pwd"],
-	["alexandre.eisenchteter@af83.com", "pwd"],
-	["romain.gauthier@af83.com", "pwd"],
-	["participant", "pwd"]
+	["participant", 'pwd'],
+	["participant2", "pwd"],
+	["participant3", "pwd"],
+	["owner", "pwd"]
 ].map(function(login) {
 	return new User(login[0], login[1]);
 });
