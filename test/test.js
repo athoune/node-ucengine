@@ -5,7 +5,7 @@ var uce = require('../lib/ucengine'),
 var conf = {
 	host: 'localhost',
 	port: 5280,
-	uid: 'victor.goya@af83.com',
+	uid: 'participant3',
 	credential: 'pwd'
 };
 
